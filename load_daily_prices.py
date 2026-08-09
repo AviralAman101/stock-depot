@@ -116,7 +116,9 @@ for company in companies:
             progress=False,
             threads=False
         )
-
+        # Flatten MultiIndex columns
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
     except Exception as ex:
 
         print("Download failed.")
@@ -182,7 +184,3 @@ connection.close()
 print()
 print("Daily price loading completed successfully.")
 print(yf.__version__)
-df = yf.download("RELIANCE.NS", period="5d")
-
-print(df.head())
-print(df.columns)
